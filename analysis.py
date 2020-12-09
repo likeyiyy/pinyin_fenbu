@@ -26,17 +26,18 @@ class Parser(object):
         return result
 
     def store(self, result):
-        db = pymysql.connect("mysql", "root", "xxxx", "pinyin")
+        db = pymysql.connect("mysql", "root", "gllue123", "pinyin")
         cursor = db.cursor()
         for item in result:
             try:
                 # 执行sql语句
-                sql = f"insert into pinyin set pinyin = {item['name']}, shengdiao = {item['shengdiao']}, word = {item['word']};"
+                sql = f"insert into pinyin set `pinyin` = '{item['name']}', shengdiao = '{item['shengdiao']}', word = '{item['word']}';"
                 print(sql)
                 cursor.execute(sql)
                 # 提交到数据库执行
                 db.commit()
-            except:
+            except Exception as e:
+                print(str(e))
                 # 如果发生错误则回滚
                 db.rollback()
 
